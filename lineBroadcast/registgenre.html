@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>LINE自動配信ツール</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/form.css">
+</head>
+
+<body>
+  <h2>ジャンル登録</h2>
+  <div class="cp_iptxt">
+    <h3>ジャンル名</h3>
+    <label class="ef">
+      <input type="text" name="genrename" id="genrename" placeholder="ジャンル名">
+    </label>
+  </div>
+  <div id="regbtn" class="buttonarea">
+    <button class="button-g button-4" value="register" onclick="genreregister()">ジャンル登録</button>
+  </div>
+  <h2>ジャンル削除</h2>
+  <div class="cp_iptxt">
+    <h3>ジャンル</h3>
+    <div class="cp_ipselect cp_sl01">
+      <select id="genre-select">
+        <option value="">--ジャンル選択--</option>
+      </select>
+    </div>
+  </div>
+  <div id="delbtn" class="buttonarea">
+    <button class="button-g button-8" value="delete" onclick="deleteit('genre')">ジャンル削除</button>
+  </div>
+  <div class='buttonarea'>
+    <button type="button" id="topbutton" class="topbutton button-g button-6 button-standard" role="button"
+      onclick="transfer('top_page');">トップへ戻る</button>
+  </div>
+  <div class="exit_area">
+    <button class="button-g button-10" value="exit" onclick="exitApp();">終了</button>
+  </div>
+  <script src="./build/common.js"></script>
+  <footer>
+    <p><small>&copy; 2024 Satsuma Ebisudo All Rights Reserved. </small></p>
+  </footer>
+</body>
+
+</html>

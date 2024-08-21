@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="robots" content="noindex,nofollow,noarchive">
+    <title>LINEメッセージビューワ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css'>
+  </head>
+  <body>
+    <header>
+      <h1><%= title %></h1>
+      <div class="button-area">
+        <form method="post" action="/searchno">
+          <input class="Input-style" name="cutomerno" type="text">
+          <button class="button-style numberbtn"><i class="fa fa-fw fa-search" aria-hidden="true"></i> 番号検索</button>&emsp;
+        </form>
+        <form method="post" action="/searchname">
+          <input class="Input-style" name="customername" type="text">
+          <button class="button-style namebtn"><i class="fa fa-fw fa-search" aria-hidden="true"></i> 顧客名検索</button>&emsp;&emsp;&emsp;
+        </form>
+        <a href="/" rel="nofollow"><button class="button-style homebtn"><i class="fa-solid fa-house"></i></i> ホームへ</button></a>
+      </div>
+    </header> 	
+    <table>
+      <thead>
+          <tr>
+            <th class="name">名前</th>
+            <th class="date">送信日</th>
+            <th class="time">送信時間</th>
+            <th class="content">内容</th>
+          </tr>
+        </thead>
+      <% for (var i=0; i < data.length; i++) { %>
+        <tbody>
+          <tr>
+            <td><%= data[i].sendername %></td>
+            <td><%= date[i] %></td>
+            <td><%= data[i].time %></td>
+            <td><%= data[i].content %></td>
+          </tr>
+        </tbody>
+      <% } %>
+    </table>
+    <div class="red"><%= error %></div>
+    <footer>
+      <p><small>&copy; 2023 Satsuma Ebisudo All Rights Reserved. </small></p>
+    </footer>
+  </body>
+</html>

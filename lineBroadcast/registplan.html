@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>LINE自動配信ツール</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/form.css">
+</head>
+
+<body>
+  <h2>プラン登録</h2>
+  <div class="cp_iptxt">
+    <h3>プラン名</h3>
+    <label class="ef">
+      <input type="text" name="planname" id="planname" placeholder="プラン名">
+    </label>
+  </div>
+  <div class="cp_iptxt">
+    <h3>ジャンル</h3>
+    <div class="cp_ipselect cp_sl01">
+      <select id="genre-select">
+        <option value="">--ジャンル選択--</option>
+      </select>
+    </div>
+  </div>
+  <div class="cp_iptxt">
+    <h3>配信タイプ</h3>
+    <div class="cp_ipselect cp_sl01">
+      <select id="linemethod-select" onchange="linemethodchange(this);">
+        <option value="">--配信タイプ選択--</option>
+      </select>
+    </div>
+  </div>
+  <div id="editarea">
+    <div id="imgbtn" class="buttonarea">
+      <button id="single" class="button-g" value="upload" onclick="upload(false)">画像選択</button>
+      <button id="multiple" class="button-g" value="upload" onclick="upload(true)">画像選択</button>
+      <button id="clear" class="button-g button-8" value="clear" onclick="clearUpload()">画像クリア</button>
+    </div>
+    <div id="imagepath"></div>
+    <div id="defaulturl" class="defaulturl">
+      <h3 id="defaulturlhead">標準遷移先URL</h3>
+      <label class="ef">
+        <input type="text" name="baseurl" id="baseurl" placeholder="標準遷移先URL">
+      </label>
+    </div>
+    <div id="content_area1" class="displaytextarea">
+      <hr>
+      <div class="multiImagepath"></div>
+      <div id="textarea" class="cp_iptxt">
+        <h3 class="displayhead">表示テキスト</h3>
+        <label class="ef">
+          <textarea name="plantext" class="plantext" rows="2" placeholder=""></textarea>
+        </label>
+      </div>
+      <div id="urlarea" class="cp_iptxt">
+        <h3 class="displayurl">遷移先URL</h3>
+        <label class="ef">
+          <input type="text" name="planurl" class="planurl" placeholder="">
+        </label>
+      </div>
+    </div>
+    <button id="addText" class="button-g" value="addButton" onclick="addButton()">追加</button>
+  </div>
+  <div id="regbtn" class="buttonarea">
+    <button class="button-g button-4" value="register" onclick="planregister(event)">プラン登録</button>
+    <button id="clearform" class="button-g button-8" value="clearform" onclick="clearform()">フォームクリア</button>
+  </div>
+  <hr>
+  <div class="cp_iptxt">
+    <h3>プラン削除</h3>
+    <div class="cp_ipselect cp_sl01">
+      <select id="plan-select">
+        <option value="">--プラン選択--</option>
+      </select>
+    </div>
+  </div>
+  <div id="delbtn" class="buttonarea">
+    <button class="button-g button-8" value="delete" onclick="deleteit('plan')">プラン削除</button>
+  </div>
+  <div class='buttonarea'>
+    <button type="button" id="topbutton" class="topbutton button-g button-6 button-standard" role="button"
+      onclick="transfer('top_page');">トップへ戻る</button>
+  </div>
+  <div class="exit_area">
+    <button class="button-g button-10" value="exit" onclick="exitApp();">終了</button>
+  </div>
+  <script src="./build/common.js"></script>
+  <script>
+    editAreaDom.style.display = 'none';
+    buttonAreaDom.style.display = 'flex';
+  </script>
+  <footer>
+    <p><small>&copy; 2024 Satsuma Ebisudo All Rights Reserved. </small></p>
+  </footer>
+</body>
+
+</html>

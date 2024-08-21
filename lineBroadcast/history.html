@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>LINE自動配信ツール</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+  <link rel='stylesheet' href='css/index.css'>
+  <link rel='stylesheet' href='css/history.css'>
+</head>
+
+<body>
+  <h1 id='maintitle'>配信履歴</h1>
+  <div id='table-wrapper' class='table-wrapper'>
+    <table id='resultTable'></table>
+  </div>
+  <div class='container'>
+    <div>
+      <span id='js-pagination-result-total'></span>件
+      <span id='js-pagination-result-range-text'></span>
+    </div>
+    <div class='button-container'>
+      <button id='js-button-prev' class='button-g button-standard' onclick='goprev()'>
+        前へ
+      </button>
+      <button id='js-button-next' class='button-g button-standard' onclick='goforward()'>
+        次へ
+      </button>
+      <div>
+        <nav id='js-pagination-result-range'></nav>
+        <span id='js-pagination-current'></span>
+      </div>
+    </div>
+  </div>
+  <div class='buttonarea'>
+    <button type="button" id="topbutton" class="topbutton button-g button-6 button-standard" role="button"
+      onclick="transfer('top_page');">トップへ戻る</button>
+  </div>
+  <div class="exit_area">
+    <button class="button-g button-10" value="exit" onclick="exitApp();">終了</button>
+  </div>
+  <script src="./build/common.js"></script>
+  <footer>
+    <p><small>&copy; 2024 Satsuma Ebisudo All Rights Reserved. </small></p>
+  </footer>
+
+  <script>
+    // 現在のページ
+    let globalCurrentPage = 0;
+    // 総数
+    let globalTotalItem = 0;
+    // エラーメッセージ
+    let errorArray = [];
+
+    // 項目名辞書
+    const dictionary = Object.freeze({
+      id: 'ID',
+      broadcastname: '配信名',
+      plan_id: 'プランID',
+      channel_id: 'チャンネルID',
+      sendtime: '配信日',
+      success: '成功数',
+      fail: '失敗数',
+      done: '完了',
+      usable: '使用可',
+    });
+
+    // 前へ_DOM指定
+    const prevButton = document.getElementById('js-button-prev');
+    // 次へ_DOM指定
+    const nextButton = document.getElementById('js-button-next');
+    // 1ページに表示したい件数
+    const PER_PAGE = 15;
+
+    // 前へボタン_アクション
+    prevButton.addEventListener('click', () => {
+      if (1 >= globalCurrentPage) {
+        prevButton.disabled = true;
+      }
+      if (0 >= globalCurrentPage) return;
+
+      nextButton.disabled = false;
+      globalCurrentPage--;
+      render();
+    });
+
+    // 次へボタン_アクション
+    nextButton.addEventListener('click', () => {
+      if (PER_PAGE * (globalCurrentPage + 2) >= globalTotalItem) {
+        nextButton.disabled = true;
+      }
+      if (PER_PAGE * (globalCurrentPage + 1) >= globalTotalItem) return;
+
+      prevButton.disabled = false;
+      globalCurrentPage++;
+      render();
+    });
+
+    // 閲覧中の情報の件数の範囲を表示
+    const rangeCurrentPage = () => {
+      if (!globalTotalItem) return;
+      const start = globalCurrentPage * PER_PAGE + 1;
+      const text =
+        (globalCurrentPage + 1) * PER_PAGE < globalTotalItem
+          ? `${start}件〜${(globalCurrentPage + 1) * PER_PAGE}件目を表示`
+          : `${start}件〜${globalTotalItem}件目を表示`;
+      return text;
+    };
+
+    // レンダリング
+    const render = () => {
+      // 表示
+      let page;
+      // 一時ページ数
+      const tmpPage = rangeCurrentPage();
+      // 一時ページ数あり
+      if (tmpPage) {
+        // ページ表示
+        page = `中${tmpPage}`;
+
+      } else {
+        // 空ページ
+        page = '';
+      }
+      // トータル件数セット
+      document.getElementById(
+        'js-pagination-result-total'
+      ).innerHTML = globalTotalItem;
+
+      // トータル範囲セット
+      document.getElementById(
+        'js-pagination-result-range-text'
+      ).innerHTML = page;
+    }
+    // レンダリング実行
+    render();
+
+    // 閲覧モード
+    class TableMaker {
+      // テーブル作成
+      static make({ tableId = null, json = null, headers = [] } = {}) {
+        // テーブルDOM
+        const table = document.getElementById(tableId);
+        // jsonが文字列ならパース
+        if (typeof json === 'string') json = JSON.parse(json);
+        // セット
+        table.innerHTML = this.build(json, headers);
+      }
+
+      // ビルドメソッド
+      static build(json, headers) {
+        // データなしフラグ
+        let nodataFlg = false;
+        // マップ
+        const rows = json.map(row => {
+          // ヘッダ
+          if (headers.length === 0) headers = Object.keys(row);
+          // タグ文字列
+          const tdsStr = headers.map(h => {
+            // セル値
+            const v = row[h];
+
+            // タグ返し
+            if (h == 'id' && v == 0) {
+              // データなしフラグオン
+              nodataFlg = true;
+
+            } else if (h == 'channel_id') {
+              // チャンネル
+              if (v == '1') {
+                return `<td>ダミー恵比寿堂</td>`;
+
+              } else if (v == '2') {
+                return `<td>恵比寿堂</td>`;
+
+              } else if (v == '3') {
+                return `<td>酔神くらぶ</td>`;
+              }
+
+            } else if (h == 'sendtime') {
+              // 日付変換
+              const fixedDatetime = new Date(v).toLocaleString();
+              // 返し
+              return `<td>${fixedDatetime}</td>`;
+
+            } else if (h == 'done') {
+              // 成功数
+              if (v == '1') {
+                return `<td>成功</td>`;
+
+              } else {
+                return `<td>失敗</td>`;
+              }
+
+            } else if (h == 'usable') {
+              // 使用可能
+              if (v == '1') {
+                return `<td>可</td>`;
+
+              } else {
+                return `<td>不可</td>`;
+              }
+
+            } else {
+              // それ以外
+              return `<td>${v}</td>`;
+            }
+
+          }).join('')
+          return `<tr>${tdsStr}</tr>`;
+        });
+        // ヘッダ
+        const thsStr = headers.map(h => `<th>${dictionary[h]}</th>`).join('');
+        // 本文
+        const rowsStr = rows.join('');
+
+        // データなしフラグオン
+        if (nodataFlg) {
+          // テーブルタグ
+          return `<thead><tr>${thsStr}</tr></thead><tbody></tbody>`;
+
+        } else {
+          // テーブルタグ
+          return `<thead><tr>${thsStr}</tr></thead><tbody>${rowsStr}</tbody>`;
+        }
+      }
+    }
+
+    // 履歴表示
+    window.api.on('history_finish', arg => {
+      // トータル行数
+      globalTotalItem = arg.total;
+      // 通常テーブル表示
+      document.getElementById('table-wrapper').style.display = 'block';
+      // テーブル作成
+      TableMaker.make({ tableId: 'resultTable', json: arg.result });
+
+      // 表描画
+      render();
+    });
+
+    // 前へ
+    const goprev = () => {
+      try {
+        console.log('goprev mode');
+        // 支払済み要求
+        window.api.send('changehistory', {
+          page: (globalCurrentPage - 1) * PER_PAGE, // ページ
+          direction: 'prev', // 方向
+        });
+
+      } catch (e) {
+        // エラー処理
+        window.api.send('error', e);
+      }
+    }
+
+    // 次へ
+    const goforward = () => {
+      try {
+        console.log('goforward mode');
+        // 支払済み要求
+        window.api.send('changehistory', {
+          page: (globalCurrentPage + 1) * PER_PAGE, // ページ
+          direction: 'forward', // 方向
+        });
+
+      } catch (e) {
+        // エラー処理
+        window.api.send('error', e);
+      }
+    }
+  </script>
+</body>
+
+</html>

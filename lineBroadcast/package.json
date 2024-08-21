@@ -1,0 +1,40 @@
+{
+  "name": "linebroadcast-app",
+  "productName": "linebroadcast-app",
+  "version": "1.3.0",
+  "description": "linebroadcast application",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc && chcp 65001",
+    "package-win": "tsc && chcp 65001 && electron-packager . --asar --overwrite --platform=win32 --arch=ia32 --prune --icon=./assets/linebroadcast.ico --out=release-builds --electronVersion=29.3.0",
+    "start": "tsc && chcp 65001 && electron ."
+  },
+  "keywords": [],
+  "author": {
+    "name": "ebs-uchimura",
+    "email": "uchimura@ebisu-do.jp"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/image-size": "^0.8.0",
+    "@types/node": "^20.12.7",
+    "@types/sanitize-html": "^2.11.0",
+    "@types/ssh2-sftp-client": "^9.0.3",
+    "csv-parse": "^5.5.5",
+    "csv-stringify": "^6.4.6",
+    "dotenv": "^16.4.5",
+    "electron-log": "^5.1.2",
+    "https": "^1.0.0",
+    "image-size": "^1.1.1",
+    "mysql2": "^3.9.7",
+    "path": "^0.12.7",
+    "sanitize-html": "^2.13.0",
+    "ssh2-sftp-client": "^10.0.3"
+  },
+  "devDependencies": {
+    "electron": "^29.3.0",
+    "electron-packager": "^17.1.2",
+    "typescript": "^5.4.5"
+  }
+}

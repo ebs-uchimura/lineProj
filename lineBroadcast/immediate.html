@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>LINE自動配信ツール</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/form.css">
+</head>
+
+<body>
+  <h2>即時LINE配信</h2>
+  <div class="cp_iptxt">
+    <h3>配信名</h3>
+    <label class="ef">
+      <input type="text" name="broadcastname" id="broadcastname" placeholder="配信名">
+    </label>
+  </div>
+  <div class="cp_iptxt">
+    <h3>チャンネル</h3>
+    <div class="cp_ipselect cp_sl01">
+      <select id="channel-select" required>
+        <option value="">--チャンネル選択--</option>
+      </select>
+    </div>
+  </div>
+  <div class="cp_iptxt">
+    <h3>プラン</h3>
+    <div class="cp_ipselect cp_sl01">
+      <select id="plan-select">
+        <option value="">--プラン選択--</option>
+      </select>
+    </div>
+  </div>
+  <div id="csvfile" class="buttonarea">
+    <button class="button-g" value="reader" onclick="readCSV()">ユーザID CSV読込</button>
+    <button class="button-g button-8" value="reader" onclick="clearCSV()">ユーザID クリア</button>
+    <div id="csvfilepath"></div>
+  </div>
+  <div id="reservation" class="buttonarea">
+    <button class="button-g button-4" value="broadcast" onclick="broadcast()">今すぐLINE配信</button>
+  </div>
+  <div class='buttonarea'>
+    <button type="button" id="topbutton" class="topbutton button-g button-6 button-standard" role="button"
+      onclick="transfer('top_page');">トップへ戻る</button>
+  </div>
+  <div class="exit_area">
+    <button class="button-g button-10" value="exit" onclick="exitApp();">終了</button>
+  </div>
+  <script src="./build/common.js"></script>
+  <script>clearCSV();</script>
+  <footer>
+    <p><small>&copy; 2024 Satsuma Ebisudo All Rights Reserved. </small></p>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+/*
+/* index.css
+*/
+
+@charset "utf-8";
+
+.container {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.customerno {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.price {
+  text-align: right;
+}
+
+.table-wrapper {
+  height: 550px;
+}
+
+.btnwrapper {
+  display: flex;
+  align-items: center;
+}
+
+#noArea {
+  width: 20%;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+#resultTable {
+  width: 100%;
+  margin: 20px 0;
+  border: solid 1px #606060;
+  border-collapse: collapse;
+}
+
+#resultTable tr th {
+  padding: 5px 5px;
+  border: solid 1px #606060;
+  background-color: #CCE6FF;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #606060;
+}
+
+#resultTable tr td {
+  padding: 5px 5px;
+  border: solid 1px #606060;
+  font-size: 0.9rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#resultTable tr td:nth-child(1),
+#resultTable tr td:nth-child(2),
+#resultTable tr td:nth-child(3),
+#resultTable tr td:nth-child(5) {
+  text-align: right;
+}
+
+#resultTable tr th:nth-child(1) {
+  width: 6%;
+}
+
+#resultTable tr th:nth-child(2) {
+  width: 20%;
+}
+
+#resultTable tr th:nth-child(3) {
+  width: 6%;
+}
+
+#resultTable tr th:nth-child(4) {
+  width: 15%;
+}
+
+#resultTable tr th:nth-child(5) {
+  width: 10%;
+}
+
+#resultTable tr th:nth-child(6) {
+  width: 10%;
+}
+
+#resultTable tr th:nth-child(7) {
+  width: 10%;
+}
+
+#resultTable tr th:nth-child(8) {
+  width: 10%;
+}
+
+.next.disable,
+.prev.disable {
+  pointer-events: none;
+  background: #ddd;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination p {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 0 5px;
+  background: #606060;
+  color: #fff
+}
+
+.next:hover,
+.prev:hover,
+.page_counter li:hover {
+  cursor: pointer;
+}
+
+.page_counter {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+  margin: 0 10px;
+}
+
+.page_counter li {
+  border: 1px solid #606060;
+  padding: 5px 10px;
+}
+
+.page_counter li.current {
+  background: #606060;
+  color: #fff;
+}
+
+.page_counter li+li {
+  margin-left: 5px;
+}
